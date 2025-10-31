@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me - Drxyzz</title>
+
+  <!-- ✅ Tambahan untuk kompatibilitas Vercel -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="About Me - DrxyzzSoloEra Portfolio" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==== SEMUA STYLE ASLI TANPA BERKURANG ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a0a0f, #1a1a2e);
+      color: white;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    #progressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: cyan;
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.2s ease;
+    }
+
+    .settings-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      z-index: 1000;
+    }
+
+    .settings-btn:hover {
+      background: rgba(0,255,255,0.3);
+      transform: scale(1.05);
+    }
+
+    .popup {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: rgba(30, 30, 60, 0.9);
+      border: 1px solid cyan;
+      border-radius: 15px;
+      padding: 20px;
+      width: 220px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .popup.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .popup h3 {
+      margin-bottom: 10px;
+      color: cyan;
+    }
+
+    .popup button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px;
+      border: none;
+      background: cyan;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .popup button:hover {
+      background: #00bcd4;
+    }
+
+    .about {
+      text-align: center;
+      padding: 100px 20px 50px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .about h1 {
+      font-family: 'Blood', sans-serif;
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: cyan;
+      text-shadow: 0 0 15px cyan;
+      letter-spacing: 2px;
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 4px solid cyan;
+      box-shadow: 0 0 25px cyan;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      font-size: 1.1em;
+      color: #ccc;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .experience {
+      text-align: center;
+      margin: 50px 20px;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #101024, #1a1a2f);
+      border-left: 5px solid cyan;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.2);
+      animation: fadeUp 1s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .experience h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: cyan;
+      margin-bottom: 15px;
+    }
+
+    .typing {
+      display: inline-block;
+      border-right: 2px solid cyan;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 4s steps(60, end), blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: cyan; }
+    }
+
+    .experience p {
+      color: #b5eaff;
+      font-style: italic;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .game {
+      text-align: center;
+      margin: 50px 20px;
+      padding: 40px;
+      border-radius: 20px;
+      color: #fff;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: all 0.8s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .game.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .game h3 {
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 10px;
+      font-size: 1.5em;
+      color: cyan;
+    }
+
+    .game p {
+      font-size: 1em;
+      color: #d0f7ff;
+    }
+
+    .valorant { background: linear-gradient(135deg, #ff0844, #ffb199); }
+    .genshin { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+    .ml { background: linear-gradient(135deg, #f7971e, #ffd200); }
+    .minecraft { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+
+    .skills {
+      text-align: center;
+      margin: 60px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .skills h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: cyan;
+      margin-bottom: 20px;
+    }
+
+    .skill { width: 80%; margin: 10px auto; text-align: left; }
+
+    .bar {
+      height: 10px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 10px;
+      background: cyan;
+      width: 0;
+      border-radius: 10px;
+      box-shadow: 0 0 10px cyan;
+      transition: width 1.2s ease;
+    }
+
+    .fill.active { width: var(--percent); }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: rgba(0, 10, 40, 0.7);
+      border-top: 1px solid rgba(0, 255, 255, 0.2);
+      box-shadow: 0 -5px 20px rgba(0, 255, 255, 0.1);
+      margin-top: 100px;
+      border-top-left-radius: 25px;
+      border-top-right-radius: 25px;
+      backdrop-filter: blur(8px);
+    }
+
+    footer p {
+      color: #cceeff;
+      font-weight: 600;
+      font-size: 1em;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(0,255,255,0.3);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .icon {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .icon img {
+      width: 20px;
+      filter: invert(1);
+      transition: transform 0.3s ease;
+    }
+
+    .icon:hover { transform: scale(1.2); }
+    .icon:active img { transform: scale(0.9) rotate(15deg); }
+    .icon.telegram:hover { box-shadow: 0 0 15px #00aaff; }
+    .icon.whatsapp:hover { box-shadow: 0 0 15px #25d366; }
+    .icon.tiktok:hover { box-shadow: 0 0 15px #ff0050; }
+
+    @keyframes fadeUp {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: cyan;
+      text-shadow: 0 0 8px #00ffff, 0 0 20px #00e5ff;
+      font-size: 1em;
+      opacity: 0.85;
+      pointer-events: none;
+      animation: fall linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
+    }
+
+    #musicButton {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(0, 255, 255, 0.2);
+      border: 2px solid cyan;
+      color: white;
+      font-size: 22px;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+
+    #musicButton:hover {
+      transform: scale(1.15);
+      background: rgba(0, 255, 255, 0.35);
+    }
+
+    #musicButton.playing {
+      box-shadow: 0 0 25px cyan, 0 0 45px #00e5ff;
+      background: rgba(0, 255, 255, 0.45);
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div id="progressBar"></div>
+  <button class="settings-btn">⚙️</button>
+  <div class="popup" id="popup">
+    <h3>Pengaturan</h3>
+    <button onclick="toggleMusic()">🎵 Musik</button>
+    <button onclick="changeBackground()">🌌 Ganti Latar</button>
+  </div>
+
+  <section class="about">
+    <img src="https://files.catbox.moe/84wg4m.jpg" class="profile-pic" alt="Profile Picture" />
+    <h1>I'm DrxyzzSoloEra</h1>
+    <p>Seorang individu kreatif yang haus akan pengetahuan dan tak pernah berhenti bereksperimen dalam dunia teknologi. Berfokus pada desain, logika, dan keindahan dalam setiap baris kode.</p>
+  </section>
+
+  <section class="experience">
+    <h2 class="typing">Pengalaman Coding</h2>
+    <p>"Coding bukan sekadar mengetik barisan karakter di layar, tapi seni menciptakan dunia dari pikiran. Setiap bug adalah pelajaran, dan setiap baris kode adalah langkah menuju kesempurnaan digital."</p>
+  </section>
+
+  <section class="game valorant">
+    <h3>Valorant</h3>
+    <p>Rank: Immortal 🔫 | Role: Duelist | Jam main: 1200+</p>
+  </section>
+
+  <section class="game genshin">
+    <h3>Genshin Impact</h3>
+    <p>AR60 🌸 | Koleksi Karakter Lengkap | Build Optimal</p>
+  </section>
+
+  <section class="game ml">
+    <h3>Mobile Legends</h3>
+    <p>Mythical Glory 🏆 | Role: Assassin | Squad Aktif</p>
+  </section>
+
+  <section class="game minecraft">
+    <h3>Minecraft</h3>
+    <p>Builder ✨ | Survival Expert | Redstone Enthusiast</p>
+  </section>
+
+  <section class="skills">
+    <h2>Skills</h2>
+    <div class="skill">
+      <p>JavaScript</p>
+      <div class="bar"><div class="fill" style="--percent: 90%;"></div></div>
+    </div>
+    <div class="skill">
+      <p>HTML</p>
+      <div class="bar"><div class="fill" style="--percent: 95%;"></div></div>
+    </div>
+    <div class="skill">
+      <p>Coding Logic</p>
+      <div class="bar"><div class="fill" style="--percent: 85%;"></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© Drxyzz Official</p>
+    <div class="social-icons">
+      <a href="https://t.me/DrxyzzSoloEra" target="_blank" class="icon telegram">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg" alt="Telegram" />
+      </a>
+      <a href="https://wa.me/628889798769" target="_blank" class="icon whatsapp">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" alt="WhatsApp" />
+      </a>
+      <a href="https://www.tiktok.com/@DrxyzzSoloEra" target="_blank" class="icon tiktok">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok" />
+      </a>
+    </div>
+  </footer>
+
+  <button id="musicButton">🎵</button>
+
+  <script>
+    window.onscroll = function() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("progressBar").style.width = scrolled + "%";
+
+      document.querySelectorAll('.game, .fill').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.classList.add('visible');
+          if (el.classList.contains('fill')) el.classList.add('active');
+        }
+      });
+    };
+
+    const settingsBtn = document.querySelector('.settings-btn');
+    const popup = document.getElementById('popup');
+    settingsBtn.addEventListener('click', () => popup.classList.toggle('active'));
+
+    const audio = new Audio("https://files.catbox.moe/6q1lw7.mp3");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (!isPlaying) {
+        audio.play();
+        isPlaying = true;
+        document.getElementById("musicButton").classList.add("playing");
+      } else {
+        audio.pause();
+        isPlaying = false;
+        document.getElementById("musicButton").classList.remove("playing");
+      }
+    }
+
+    document.getElementById("musicButton").addEventListener("click", toggleMusic);
+
+    function changeBackground() {
+      const colors = [
+        "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+        "linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)",
+        "linear-gradient(135deg, #000428, #004e92)",
+        "linear-gradient(135deg, #232526, #414345)"
+      ];
+      document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.textContent = '❄';
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+      snowflake.style.animationDuration = Math.random() * 5 + 5 + 's';
+      document.body.appendChild(snowflake);
+      setTimeout(() => snowflake.remove(), 10000);
+    }
+
+    setInterval(createSnowflake, 150);
+  </script>
+</body>
+</html>
